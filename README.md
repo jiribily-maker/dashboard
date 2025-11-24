@@ -1,1 +1,8 @@
-Toto je náš skvělý projekt je to dashbaord pro výuku html css a javascriptu v hodinách WEBu.
+# project dashboard
+
+*** Toto je náš skvělý projekt ***
+je to dashbaord pro výuku html css a javascriptu v hodinách WEBu.
+
+## Funkce
+-zobrazeni pozdravu
+-zobrazeni casu (pripravujeme)
