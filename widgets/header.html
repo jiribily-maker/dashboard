@@ -1,0 +1,33 @@
+<div class="header">
+  <h2 id="greeting"></h2>
+
+  <script>
+    (function () {
+      const student = 'Jirko'
+      const greetingEl = document.getElementById('greeting')  
+
+      function updateGreeting() {
+        const hour = new Date().getHours();
+        let msg = '';
+        if (hour < 12) {
+          msg = 'dobré ráno';
+        } else if (hour < 18){
+          msg = 'dobré odpoledne'
+        }else{
+          msg = 'dobrý večer'
+        }
+        greetingEl.textContent = msg + ', ' + student + '!';
+      }
+      updateGreeting();
+    })();
+  </script>
+</div>
+
+<style>
+  .header{
+
+    font-style: italic;
+    size: 20px;
+    color:rgb(254, 28, 28);
+  }
+</style>
