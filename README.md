@@ -1,0 +1,1 @@
+Toto je náš skvělý projekt je to dashbaord pro výuku html css a javascriptu v hodinách WEBu.
