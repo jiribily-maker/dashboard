@@ -10,11 +10,11 @@
         const hour = new Date().getHours();
         let msg = '';
         if (hour < 12) {
-          msg = 'dobré ráno';
+          msg = 'Dobré ráno';
         } else if (hour < 18){
-          msg = 'dobré odpoledne'
+          msg = 'Dobré odpoledne'
         }else{
-          msg = 'dobrý večer'
+          msg = 'Dobrý večer'
         }
         greetingEl.textContent = msg + ', ' + student + '!';
       }
