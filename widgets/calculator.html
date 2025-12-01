@@ -1,0 +1,114 @@
+<div id="calc-widget" class="simple-calc">
+    <input type="text" id="calc-input" readonly>
+
+    <div class="buttons">
+        <!-- Čísla -->
+        <button onclick="calcAppend('7')">7</button>
+        <button onclick="calcAppend('8')">8</button>
+        <button onclick="calcAppend('9')">9</button>
+
+        <button onclick="calcAppend('/')" class="op">/</button>
+
+        <button onclick="calcAppend('4')">4</button>
+        <button onclick="calcAppend('5')">5</button>
+        <button onclick="calcAppend('6')">6</button>
+
+        <button onclick="calcAppend('*')" class="op">*</button>
+
+        <button onclick="calcAppend('1')">1</button>
+        <button onclick="calcAppend('2')">2</button>
+        <button onclick="calcAppend('3')">3</button>
+
+        <button onclick="calcAppend('-')" class="op">-</button>
+
+        <button onclick="calcAppend('0')">0</button>
+        <button onclick="calcAppend('.')">.</button>
+
+        <button onclick="calcResult()" class="op">=</button>
+
+        <button onclick="calcAppend('+')" class="op">+</button>
+
+        <button onclick="calcClear()" class="clear">C</button>
+    </div>
+</div>
+
+<style>
+/* Hlavní kontejner */
+.simple-calc {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    width: 200px;
+
+    /* odstranění pozadí kvůli dashboardu */
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Display */
+#calc-input {
+    grid-column: span 4;
+    text-align: right;
+    padding: 8px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Tlačítka */
+.buttons {
+    display: contents;  /* nechá tlačítka zapadnout do gridu */
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #f4f4f4;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #e9e9e9;
+}
+
+button.op {
+    background: #d0e4ff;
+}
+
+button.op:hover {
+    background: #bcd7ff;
+}
+
+button.clear {
+    grid-column: span 4;
+    background: #ffb5b5;
+}
+
+button.clear:hover {
+    background: #ff9e9e;
+}
+</style>
+
+<script>
+window.calcAppend = function (val) {
+    document.getElementById('calc-input').value += val;
+}
+
+window.calcResult = function () {
+    try {
+        const input = document.getElementById('calc-input');
+        input.value = eval(input.value);
+    } catch (e) {
+        alert('Chyba');
+    }
+}
+
+window.calcClear = function () {
+    document.getElementById('calc-input').value = '';
+}
+</script>

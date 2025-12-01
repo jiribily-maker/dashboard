@@ -1,0 +1,71 @@
+<div id="weather-widget">
+    <div class="weather-city">Načítám...</div>
+    <div class="weather-temp" id="weather-temp">--°C</div>
+    <div class="weather-desc" id="weather-desc">Načítám...</div>
+</div>
+
+<style>
+#weather-widget {
+    text-align: center;
+    font-family: Arial, sans-serif;
+
+    /* ODSTRANĚNÍ bílého boxu */
+    background: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+#weather-widget .weather-city {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#weather-widget .weather-temp {
+    font-size: 44px;
+    font-weight: bold;
+    color: #0077ff;
+    margin-bottom: 5px;
+}
+
+#weather-widget .weather-desc {
+    font-size: 16px;
+    color: #666;
+}
+</style>
+
+<script>
+(function () {
+    const tempEl = document.getElementById('weather-temp');
+    const descEl = document.getElementById('weather-desc');
+    const cityEl = document.querySelector('#weather-widget .weather-city');
+
+    const lat = 49.0698;
+    const long = 17.4597;
+
+    // Open-Meteo
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true`)
+        .then(r => r.json())
+        .then(data => {
+            tempEl.textContent = `${data.current_weather.temperature}°C`;
+            descEl.textContent = getWeatherDescription(data.current_weather.weathercode);
+        });
+
+    // BigDataCloud
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${long}&localityLanguage=cs`)
+        .then(r => r.json())
+        .then(data => {
+            cityEl.textContent = data.city || data.locality || "Neznámé místo";
+        });
+
+    function getWeatherDescription(code) {
+        if (code === 0) return "Jasno";
+        if (code >= 1 && code <= 3) return "Polojasno";
+        if (code >= 45 && code <= 48) return "Mlha";
+        if (code >= 51 && code <= 67) return "Déšť";
+        if (code >= 71 && code <= 77) return "Sníh";
+        if (code >= 95) return "Bouřka";
+        return "Neznámé";
+    }
+})();
+</script>
