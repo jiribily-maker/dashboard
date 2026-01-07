@@ -1,0 +1,242 @@
+
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Tracker</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 20px;
+        background: white;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #222;
+    }
+
+    h1 {
+        font-size: 1.3rem;
+        margin-bottom: 14px;
+    }
+
+    /* ===== KALENDÁŘ ===== */
+    .calendar {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        margin-bottom: 18px;
+    }
+
+    .calendar::-webkit-scrollbar {
+        height: 4px;
+    }
+    .calendar::-webkit-scrollbar-thumb {
+        background: #ddd;
+        border-radius: 10px;
+    }
+
+    .cal-day {
+        min-width: 46px;
+        padding: 6px 0;
+        text-align: center;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.7rem;
+        color: #666;
+        transition: background 0.15s, color 0.15s, transform 0.1s;
+    }
+
+    .cal-day span {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .cal-day:hover {
+        background: #f0f0f0;
+    }
+
+    .cal-day.active {
+        background: #222;
+        color: #fff;
+    }
+
+    .cal-day.active span {
+        color: #fff;
+    }
+
+    .cal-day.today::after {
+        content: '•';
+        display: block;
+        font-size: 0.8rem;
+        color: #e63946;
+        line-height: 0.8;
+    }
+
+    /* ===== NÁLADY ===== */
+    .moods {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .mood {
+        font-size: 2rem;
+        cursor: pointer;
+        opacity: 0.4;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .mood:hover {
+        transform: scale(1.15);
+        opacity: 0.8;
+    }
+
+    .mood.active {
+        transform: scale(1.25);
+        opacity: 1;
+    }
+
+    /* ===== HISTORIE ===== */
+    .history h2 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .history-list {
+        display: flex;
+        gap: 8px;
+    }
+
+    .day {
+        flex: 1;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #555;
+    }
+
+    .day span {
+        display: block;
+        font-size: 1.4rem;
+        margin-top: 4px;
+        color: #000;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Jak se dnes cítíš?</h1>
+
+<div class="calendar" id="calendar"></div>
+
+<div class="moods">
+    <div class="mood">😄</div>
+    <div class="mood">🙂</div>
+    <div class="mood">😐</div>
+    <div class="mood">😕</div>
+    <div class="mood">😡</div>
+    <div class="mood">💩</div>
+</div>
+
+<div class="history">
+    <h2>Posledních 7 dní</h2>
+    <div class="history-list" id="history"></div>
+</div>
+
+<script>
+    const moods = document.querySelectorAll('.mood');
+    const calendarEl = document.getElementById('calendar');
+    const historyEl = document.getElementById('history');
+
+    let selectedDate = new Date().toISOString().split('T')[0];
+    const today = selectedDate;
+
+    function getData() {
+        return JSON.parse(localStorage.getItem('moodTracker') || '{}');
+    }
+
+    function saveData(data) {
+        localStorage.setItem('moodTracker', JSON.stringify(data));
+    }
+
+    function renderCalendar() {
+        calendarEl.innerHTML = '';
+        const days = ['Ne','Po','Út','St','Čt','Pá','So'];
+
+        for (let i = 13; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            const key = d.toISOString().split('T')[0];
+
+            const div = document.createElement('div');
+            div.className = 'cal-day';
+            if (key === selectedDate) div.classList.add('active');
+            if (key === today) div.classList.add('today');
+
+            div.innerHTML = `
+                ${days[d.getDay()]}
+                <span>${d.getDate()}</span>
+            `;
+
+            div.addEventListener('click', () => {
+                selectedDate = key;
+                renderCalendar();
+                renderActiveMood();
+            });
+
+            calendarEl.appendChild(div);
+        }
+    }
+
+    function renderActiveMood() {
+        moods.forEach(m => m.classList.remove('active'));
+        const data = getData();
+        const mood = data[selectedDate];
+        if (mood) {
+            moods.forEach(m => {
+                if (m.textContent === mood) {
+                    m.classList.add('active');
+                }
+            });
+        }
+    }
+
+    moods.forEach(mood => {
+        mood.addEventListener('click', () => {
+            const data = getData();
+            data[selectedDate] = mood.textContent;
+            saveData(data);
+            renderActiveMood();
+            renderHistory();
+        });
+    });
+
+    function renderHistory() {
+        historyEl.innerHTML = '';
+        const data = getData();
+
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            const key = d.toISOString().split('T')[0];
+
+            const div = document.createElement('div');
+            div.className = 'day';
+            div.innerHTML = `
+                ${d.getDate()}.${d.getMonth() + 1}.
+                <span>${data[key] || '—'}</span>
+            `;
+            historyEl.appendChild(div);
+        }
+    }
+
+    renderCalendar();
+    renderActiveMood();
+    renderHistory();
+</script>
+
+</body>
+</html>
