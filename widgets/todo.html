@@ -7,12 +7,6 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-        body {
-            background: #f2f3f7;
-            font-family: "Inter", Arial, sans-serif;
-            padding: 40px;
-        }
-
         /* Widget na půl stránky */
         .todo-widget {
             width: 50%;
@@ -25,7 +19,7 @@
             margin-bottom: 25px;
             font-size: 24px;
             font-weight: 700;
-            color: #333;
+            color:var(--text-color);
         }
 
         .input-group {
@@ -36,24 +30,24 @@
         .input-group input {
             flex: 1;
             padding: 12px 15px;
-            border: 1px solid #ccc;
+            border: 1px solid var(--text-color);
             border-radius: 12px;
             font-size: 15px;
-            background: #fff;
+            background: var(body-bg);
             outline: none;
             transition: 0.2s;
         }
 
         .input-group input:focus {
-            border-color: #6a5acd;
+            border-color: var(--text-color);
             box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2);
         }
 
         .input-group button {
             padding: 0 18px;
             border: none;
-            background: #6a5acd;
-            color: white;
+            background: var(--primary-color);
+            color: var(--text-color);
             font-size: 22px;
             border-radius: 12px;
             cursor: pointer;
@@ -61,7 +55,7 @@
         }
 
         .input-group button:hover {
-            background: #5848c2;
+            background: var(--shadow-hover);
         }
 
         ul {
@@ -71,15 +65,15 @@
         }
 
         li {
-            background: #ffffff;
+            background: var(--body-shadow);
             padding: 14px 16px;
             border-radius: 12px;
             margin-bottom: 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #e6e6e6;
-            animation: fadeIn 0.25s ease;
+            border: 1px solid var(--text-color);
+            animation: fadeIn 0.25s ease
         }
 
         .todo-item-content {
@@ -92,7 +86,7 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
-            accent-color: #6a5acd;
+            accent-color: var(--shadow-hover);
         }
 
         li span {
@@ -101,20 +95,20 @@
 
         .completed span {
             text-decoration: line-through;
-            color: #999;
+            color: var(--text-color);
         }
 
         .delete-btn {
             border: none;
             background: none;
-            color: #d9534f;
+            color: var(--text-color);
             font-size: 22px;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .delete-btn:hover {
-            color: #b52a27;
+            color: var(--shadow-hover);
         }
 
         @keyframes fadeIn {

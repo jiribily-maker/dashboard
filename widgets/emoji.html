@@ -6,14 +6,6 @@
 <title>Mood Tracker</title>
 
 <style>
-    body {
-        margin: 0;
-        padding: 20px;
-        background: white;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #222;
-    }
-
     h1 {
         font-size: 1.3rem;
         margin-bottom: 14px;
@@ -32,7 +24,7 @@
         height: 4px;
     }
     .calendar::-webkit-scrollbar-thumb {
-        background: #ddd;
+        background: var(--body-shadow);
         border-radius: 10px;
     }
 
@@ -43,7 +35,7 @@
         border-radius: 10px;
         cursor: pointer;
         font-size: 0.7rem;
-        color: #666;
+        color: var(--text-color);
         transition: background 0.15s, color 0.15s, transform 0.1s;
     }
 
@@ -51,27 +43,27 @@
         display: block;
         font-size: 0.95rem;
         font-weight: 600;
-        color: #222;
+        color: var(--text-color);
     }
 
     .cal-day:hover {
-        background: #f0f0f0;
+        background: var(--primary-color-text);
     }
 
     .cal-day.active {
-        background: #222;
-        color: #fff;
+        background: var(--body-bg);
+        color: var(--text-color);
     }
 
     .cal-day.active span {
-        color: #fff;
+        color: var(--text-color);
     }
 
     .cal-day.today::after {
         content: '•';
         display: block;
         font-size: 0.8rem;
-        color: #e63946;
+        color: var(--bg-shadow);
         line-height: 0.8;
     }
 
@@ -114,14 +106,14 @@
         flex: 1;
         text-align: center;
         font-size: 0.75rem;
-        color: #555;
+        color: var(--text-color);
     }
 
     .day span {
         display: block;
         font-size: 1.4rem;
         margin-top: 4px;
-        color: #000;
+        color: var(--text-color);
     }
 </style>
 </head>
